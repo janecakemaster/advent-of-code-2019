@@ -10,11 +10,21 @@ const rl = readline.createInterface({
 });
 
 rl.on("line", line => {
-  const arr = line.split(",").map(n => parseInt(n, 10));
-  arr[1] = 12;
-  arr[2] = 2;
+  const original = line.split(",").map(n => parseInt(n, 10));
 
-  intcode(arr);
+  for (let noun = 0; noun < 99; noun++) {
+    for (let verb = 0; verb < 99; verb++) {
+      const arr = [...original];
+      arr[1] = noun;
+      arr[2] = verb;
+      intcode(arr);
+
+      if (arr[0] === 19690720) {
+        console.log({ noun, verb, result: 100 * noun + verb });
+        return;
+      }
+    }
+  }
 });
 
 function intcode(arr) {
@@ -28,10 +38,10 @@ function intcode(arr) {
     const b = arr[pos + 2];
     const storeVal = op === 1 ? arr[a] + arr[b] : arr[a] * arr[b];
     const storePos = arr[pos + 3];
+
     arr[storePos] = storeVal;
     pos += 4;
   }
-  console.log({ pos0: arr[0] });
   return arr;
 }
 
