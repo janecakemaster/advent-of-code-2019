@@ -12,7 +12,13 @@ const rl = readline.createInterface({
 let total = 0;
 
 rl.on("line", mass => {
-  total += fuel(mass);
+  let lastVal = mass;
+  let subtotal = 0;
+  while (fuel(lastVal) > 0) {
+    subtotal += fuel(lastVal);
+    lastVal = fuel(lastVal);
+  }
+  total += subtotal;
 });
 
 function fuel(mass) {
