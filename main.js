@@ -4,15 +4,21 @@ const fs = require("fs");
 const readline = require("readline");
 
 const rl = readline.createInterface({
-  input: fs.createReadStream("./example.txt"),
-  // input: fs.createReadStream("./day2.txt"),
+  // input: fs.createReadStream("./example.txt"),
+  input: fs.createReadStream("./day2.txt"),
   output: process.stdout
 });
 
 rl.on("line", line => {
   const arr = line.split(",").map(n => parseInt(n, 10));
-  let pos = 0;
+  arr[1] = 12;
+  arr[2] = 2;
 
+  intcode(arr);
+});
+
+function intcode(arr) {
+  let pos = 0;
   while (arr.length >= pos) {
     const op = arr[pos];
     if (op === 99) {
@@ -25,7 +31,9 @@ rl.on("line", line => {
     arr[storePos] = storeVal;
     pos += 4;
   }
-});
+  console.log({ pos0: arr[0] });
+  return arr;
+}
 
 rl.on("close", () => {
   console.log("done");
